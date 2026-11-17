@@ -1,0 +1,19 @@
+# Visual Studio / .NET
+.vs/
+**/bin/
+**/obj/
+*.user
+*.suo
+TestResults/
+# Credentials, local secrets and certificates
+.env
+.env.*
+secrets.json
+*secrets*.json
+*.pfx
+*.p12
+*.key
+*.pem
+appsettings.Development.local.json
+# Local-only exports
+*.log

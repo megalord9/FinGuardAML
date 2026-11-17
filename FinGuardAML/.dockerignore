@@ -1,0 +1,13 @@
+**/bin/
+**/obj/
+.vs/
+.git/
+.gitignore
+*.user
+*.suo
+.env
+.env.*
+secrets.json
+*.pfx
+*.p12
+*.key
