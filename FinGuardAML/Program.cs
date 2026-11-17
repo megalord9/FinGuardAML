@@ -31,6 +31,9 @@ builder.Services.AddHttpClient<CbrCurrencyService>(client =>
 builder.Services.AddHttpClient<OpenSanctionsScreeningService>(client =>
     client.Timeout = TimeSpan.FromSeconds(15));
 
+builder.Services.AddHttpClient<PartnerAnalyticsService>(client =>
+    client.Timeout = TimeSpan.FromSeconds(7));
+
 builder.Services.AddScoped<RiskScoringService>();
 builder.Services.AddSingleton<TransactionStore>();
 
