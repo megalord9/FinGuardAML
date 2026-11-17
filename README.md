@@ -134,7 +134,4 @@ dotnet user-secrets set "OpenSanctions:ApiKey" "ВАШ_КЛЮЧ"
 
 ## Где найти исходный код
 
-Репозиторий: https://github.com/megalord9/FinGuardAML (Private). Для доступа преподавателю необходимо предоставить разрешение на просмотр репозитория.
-
----
-Документация актуализирована для практической работы №5, ноябрь 2026 г.
+Репозиторий: https://github.com/megalord9/FinGuardAML (Private). 
