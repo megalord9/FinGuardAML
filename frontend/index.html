@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FinGuard AML Platform — учебная платформа анализа финансовых операций" />
+  <title>FinGuard AML · Платформа анализа операций</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#analysis" aria-label="FinGuard AML — главная">
+        <span class="brand-mark">F<span class="brand-dot">.</span></span>
+        <span class="brand-name">FinGuard <small>AML PLATFORM</small></span>
+      </a>
+      <p class="menu-label">РАБОЧЕЕ ПРОСТРАНСТВО</p>
+      <nav aria-label="Основная навигация">
+        <button type="button" class="nav-btn active" data-view="analysis"><span class="nav-icon">◈</span> Анализ операции</button>
+        <button type="button" class="nav-btn" data-view="history"><span class="nav-icon">▤</span> История проверок</button>
+        <button type="button" class="nav-btn" data-view="architecture"><span class="nav-icon">◇</span> Интеграция API</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="project-info"><span class="info-symbol">i</span><span>Учебный проект<br><small>Только вымышленные данные</small></span></div>
+        <p>ASP.NET Core 8 · Amvera · Netlify</p>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumb">Платформа <span>/</span> <strong id="current-view-title">Анализ операции</strong></div>
+        <div class="top-controls"><span class="environment">УЧЕБНАЯ СРЕДА</span><span id="api-status" class="connection unknown"><span class="status-dot"></span> Проверка API...</span></div>
+      </header>
+
+      <section class="view active" id="view-analysis" aria-labelledby="analysis-title">
+        <div class="page-heading"><div><p class="eyebrow">FINANCIAL MONITORING</p><h1 id="analysis-title">Анализ финансовой операции</h1><p class="page-desc">Оцените финансовый риск операции и получите результат интеграции двух сервисов.</p></div><button type="button" class="button button-outline" id="check-connection">Проверить соединение ↗</button></div>
+
+        <div class="mini-stats">
+          <div class="stat"><span class="stat-label">Основной API</span><strong>FinGuard AML</strong><span class="stat-foot">Оценка риска</span></div>
+          <div class="stat"><span class="stat-label">Дополнительный API</span><strong id="partner-status-short">Не проверен</strong><span class="stat-foot">Аномалии активности</span></div>
+          <div class="stat"><span class="stat-label">Система оценки</span><strong>0—100 баллов</strong><span class="stat-foot">LOW · MEDIUM · HIGH</span></div>
+        </div>
+
+        <div class="workspace">
+          <section class="panel form-panel" aria-labelledby="form-title">
+            <div class="panel-header"><div><h2 id="form-title">Данные транзакции</h2><p>Заполните форму или выберите учебный пример</p></div><span class="step-tag">01 / 02</span></div>
+            <div class="preset-row" role="group" aria-label="Готовые примеры">
+              <button type="button" class="preset active" data-preset="normal">Обычная операция</button>
+              <button type="button" class="preset" data-preset="high">Высокий риск</button>
+              <button type="button" class="preset" data-preset="anomaly">Нетипичная операция</button>
+            </div>
+            <form id="transaction-form">
+              <div class="form-grid">
+                <label class="field"><span>ID клиента</span><input name="clientId" value="TEST-001" maxlength="64" required /></label>
+                <label class="field"><span>Тип операции</span><select name="transactionType"><option value="TRANSFER">Перевод (TRANSFER)</option><option value="EXCHANGE">Обмен валюты (EXCHANGE)</option><option value="WITHDRAWAL">Вывод средств (WITHDRAWAL)</option></select></label>
+                <label class="field"><span>Сумма операции</span><input name="amount" type="number" step="0.01" min="0.01" value="2000" required /></label>
+                <label class="field"><span>Валюта</span><select name="currency" id="currency-select"><option value="RUB">RUB · Рубль</option><option value="USD">USD · Доллар</option><option value="EUR">EUR · Евро</option></select></label>
+                <label class="field"><span>Страна отправителя</span><input name="senderCountry" value="RU" maxlength="2" required /></label>
+                <label class="field"><span>Страна получателя</span><input name="receiverCountry" value="RU" maxlength="2" required /></label>
+                <label class="field"><span>Тип контрагента</span><select name="counterpartyType"><option value="COMPANY">Организация</option><option value="PERSON">Физическое лицо</option></select></label>
+                <label class="field"><span>Контрагент</span><input name="counterpartyName" value="Test Company" maxlength="150" required /></label>
+                <label class="field"><span>Операций за 30 дней</span><input name="operationsLast30Days" type="number" step="1" min="0" value="2" required /></label>
+                <label class="field"><span>Оборот за 30 дней, ₽</span><input name="totalAmountLast30Days" type="number" step="0.01" min="0" value="3000" required /></label>
+              </div>
+              <div class="rate-line"><span class="rate-circle">↗</span><span id="rate-display">Курс: 1 RUB = 1 ₽</span><button id="refresh-rate" type="button" class="text-button">Обновить курс</button></div>
+              <button type="submit" id="submit-transaction" class="button button-primary"><span>Выполнить анализ</span><span>→</span></button>
+              <p class="form-disclaimer">Не используйте реальные финансовые или персональные данные. Оценка риска демонстрационная.</p>
+            </form>
+          </section>
+
+          <section class="panel result-panel" aria-labelledby="results-title">
+            <div class="panel-header"><div><h2 id="results-title">Результат анализа</h2><p>Сводка по основному и дополнительному API</p></div><span class="step-tag">02 / 02</span></div>
+            <div id="result-placeholder" class="placeholder"><div class="placeholder-logo">◎</div><h3>Здесь появится оценка риска</h3><p>Заполните данные и нажмите «Выполнить анализ». Платформа рассчитает риск и попробует получить дополнительную аналитику.</p></div>
+            <div id="result-content" class="result-content" hidden>
+              <div class="result-top"><span id="risk-level" class="risk-pill low">LOW</span><span id="integration-pill" class="integration-pill">Проверка интеграции</span></div>
+              <div class="score-line"><div><span class="score-label">Итоговая оценка риска</span><div class="score-number"><strong id="score-value">0</strong><span>/100</span></div></div><div class="score-chart"><div id="score-progress" class="score-progress"></div></div></div>
+              <div class="score-breakdown"><div><span>FinGuard AML</span><strong id="primary-score">0 баллов</strong></div><span>+</span><div><span>Дополнительный API</span><strong id="partner-score">0 баллов</strong></div></div>
+              <div class="result-details"><h3>Причины оценки</h3><ul id="flags-list"></ul><h3>Результат интеграции</h3><p id="partner-explanation" class="neutral-copy"></p><h3>Рекомендация</h3><p id="recommendation" class="recommendation"></p></div>
+              <details class="json-box"><summary>Показать полный JSON-ответ</summary><pre id="raw-json"></pre></details>
+              <button id="copy-json" class="button button-outline copy-json" type="button">Копировать JSON</button>
+            </div>
+            <div id="request-error" class="alert error" role="alert" hidden></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="view" id="view-history" aria-labelledby="history-title">
+        <div class="page-heading"><div><p class="eyebrow">TRANSACTION HISTORY</p><h1 id="history-title">История проверок</h1><p class="page-desc">Записи хранятся в оперативной памяти backend и исчезают после его перезапуска.</p></div><button type="button" id="refresh-history" class="button button-outline">Обновить ↻</button></div>
+        <section class="panel history-panel"><div class="table-scroll"><table><thead><tr><th>ID транзакции</th><th>Клиент</th><th>Сумма</th><th>Риск</th><th>Результат</th></tr></thead><tbody id="history-body"><tr><td colspan="5" class="empty-cell">Нажмите «Обновить», чтобы загрузить данные.</td></tr></tbody></table></div><p class="note" id="history-note"></p></section>
+      </section>
+
+      <section class="view" id="view-architecture" aria-labelledby="architecture-title">
+        <div class="page-heading"><div><p class="eyebrow">INTEGRATION FLOW</p><h1 id="architecture-title">Архитектура платформы</h1><p class="page-desc">Как сервисы обмениваются данными и формируют общую оценку риска.</p></div></div>
+        <div class="flow-panel panel">
+          <div class="flow-node blue"><span class="node-label">FRONTEND · NETLIFY</span><strong>Веб-интерфейс</strong><small>Форма транзакции, история, визуализация</small></div>
+          <div class="flow-connector"><span>HTTP GET / POST · JSON</span><span>↓</span></div>
+          <div class="flow-node"><span class="node-label">BACKEND · AMVERA</span><strong>FinGuard AML Platform</strong><small>/api/v1/platform/analyze</small></div>
+          <div class="fork">↙ <span>↘</span></div>
+          <div class="flow-split"><div class="flow-node light"><span class="node-label">ОСНОВНОЙ МОДУЛЬ</span><strong>FinGuard AML</strong><small>Сумма, частота, оборот, ЦБ РФ</small></div><div class="flow-node light"><span class="node-label">ДОПОЛНИТЕЛЬНЫЙ API</span><strong>FinGuard Analytics</strong><small>POST /api/v1/analytics/analyze</small></div></div>
+          <div class="flow-connector"><span>Объединение результатов</span><span>↓</span></div>
+          <div class="flow-node green"><span class="node-label">RESULT</span><strong>Общая оценка и рекомендации</strong><small>Формула: min(100, FinGuard Score + Analytics Score)</small></div>
+        </div>
+        <div class="integration-note"><strong>Важно для практической №6:</strong> дополнительный API — самостоятельный учебный сервис. Он не принадлежит одногруппнику; для полного соответствия методичке потребуется согласовать замену с преподавателем либо подключить API одногруппника через адаптер. При отсутствии второго API интерфейс честно показывает частичный результат.</div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
