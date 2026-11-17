@@ -1,4 +1,6 @@
 using FinGuardAML.Services;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 
 // Поддержка кодировки Windows-1251 в официальном XML ЦБ РФ.
@@ -8,7 +10,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "FinGuard AML API",
+        Version = "v1",
+        Description = "Учебный веб-API для оценки риска финансовых операций, получения курсов валют ЦБ РФ и проверки контрагентов. Результаты скоринга не являются юридическими решениями."
+    });
+
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
+        options.IncludeXmlComments(xmlPath);
+});
 builder.Services.AddMemoryCache();
 
 builder.Services.AddHttpClient<CbrCurrencyService>(client =>
